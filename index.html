@@ -8,30 +8,49 @@
   <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
+  <!-- Romantic font -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg1: #ffd6e7;
-      --bg2: #ffeef6;
-      --card: #ffffffcc;
-      --yes: #ff3b7a;
-      --yesHover: #ff1f68;
+      --bg1: #ffccd9;
+      --bg2: #ffeaf1;
+      --card: #ffffffdd;
+      --yes: #ff2f6d;
+      --yesHover: #ff0f5a;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-  font-family: system-ui, sans-serif;
-  overflow: hidden;
-  padding: 16px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+      padding: 16px;
     }
 
-    /* FULL-SCREEN CONFETTI CANVAS */
+    /* Floating hearts */
+    .heart {
+      position: fixed;
+      bottom: -40px;
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-110vh) scale(1.4);
+        opacity: 0;
+      }
+    }
+
     #confettiCanvas {
       position: fixed;
       inset: 0;
@@ -42,33 +61,44 @@
     }
 
     .card {
-      width: 720px;
-  max-width: 92vw;
-  padding: 26px 22px;
-  background: var(--card);
-  backdrop-filter: blur(10px);
-  border-radius: 22px;
-  text-align: center;
-  box-shadow: 0 18px 60px rgba(0,0,0,.15);
-  transform-origin: center center;
+      width: 100%;
+      max-width: 420px;
+      padding: 24px 20px 28px;
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
     }
 
-    .art {
-      width: min(260px, 80vw);
+    .top-image {
+      width: 80%;
+      max-width: 260px;
       margin: 0 auto 10px;
       display: block;
-      filter: drop-shadow(0 10px 14px rgba(0,0,0,.12));
     }
 
     h1 {
-      font-size: clamp(26px, 4vw, 44px);
-      margin: 12px 0 18px;
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(32px, 8vw, 46px);
+      margin: 6px 0 18px;
+      background: linear-gradient(45deg, #ff2f6d, #ff7aa8, #ff2f6d);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s ease infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .button-zone {
       position: relative;
-      width: min(520px, 92%);
-      height: 150px;
+      width: 100%;
+      height: 130px;
       margin: 0 auto;
       touch-action: none;
     }
@@ -77,28 +107,26 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      padding: 16px 24px;
-      font-size: 18px;
-      font-weight: 800;
+      padding: 14px 22px;
+      font-size: 17px;
+      font-weight: 700;
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      box-shadow: 0 10px 24px rgba(0,0,0,.14);
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      transition: transform .12s ease, background .12s ease;
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+      transition: transform .15s ease, background .15s ease;
     }
 
     #yesBtn {
-      left: 18%;
+      left: 12%;
       background: var(--yes);
       color: #fff;
     }
     #yesBtn:hover { background: var(--yesHover); }
 
     #noBtn {
-      left: 62%;
-      background: #e5e7eb;
+      left: 58%;
+      background: #f1f5f9;
       color: #111827;
     }
 
@@ -111,22 +139,26 @@
     .result {
       display: none;
       margin-top: 18px;
-      animation: pop .35s ease;
+      animation: pop .4s ease;
     }
 
     .result h2 {
-      font-size: clamp(30px, 4.5vw, 46px);
-      margin: 10px 0;
+      font-family: "Great Vibes", cursive;
+      font-size: 42px;
+      color: #ff2f6d;
+      text-shadow: 0 0 15px rgba(255,47,109,.5);
+      margin-bottom: 8px;
     }
 
-    .fireworks {
-      width: min(380px, 90vw);
-      margin: 0 auto;
+    .result img {
+      width: 80%;
+      max-width: 260px;
+      margin: 10px auto 0;
       display: block;
     }
 
     @keyframes pop {
-      from { transform: scale(.96); opacity: 0; }
+      from { transform: scale(.8); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
   </style>
@@ -135,28 +167,36 @@
 <body>
   <canvas id="confettiCanvas"></canvas>
 
-  <main class="card" id="card">
-<img
-        class="fireworks"
-        src="https://raw.githubusercontent.com/MOODRAP/PUKI/refs/heads/main/Screenshot_20260206_001047_Picsart(1).png"
-        alt="Fireworks"
-      />    
-    <h1>rajeshwari will you be my valentine?</h1>
+  <!-- Romantic sax music -->
+  <audio id="music" loop>
+    <source src="https://github.com/MOODRAP/vasu/blob/13e898e081d64a657d5b28032dc86bf13a78ff3a/Romantic%20music%20sound%20effect%20(128kbit_AAC).m4a" type="audio/m4a">
+  </audio>
+
+  <main class="card">
+    <!-- TOP IMAGE -->
+    <img
+      class="top-image"
+      src="https://raw.githubusercontent.com/MOODRAP/PUKI/refs/heads/main/Screenshot_20260206_001047_Picsart(1).png"
+      alt="Fireworks"
+    />
+
+    <h1>Rajeshwari, will you be my Valentine?</h1>
 
     <section class="button-zone" id="zone">
       <button id="yesBtn">Yes</button>
       <button id="noBtn">No</button>
     </section>
 
-    <!-- HINT -->
-    <div class="hint" id="hint">"Hint: No seems a bit shy 😈"</div>
+    <div class="hint" id="hint">Hint: No seems a bit shy 😈</div>
 
     <section class="result" id="result">
-      <h2>YAY! 🎉</h2>
+      <h2>YAY! 💖</h2>
+      <p>Can’t wait for our Valentine’s day.</p>
+
+      <!-- RESULT GIF -->
       <img
-        class="fireworks"
         src="https://raw.githubusercontent.com/MOODRAP/PUKI/refs/heads/main/20260205_235937.gif"
-        alt="Fireworks"
+        alt="Celebration"
       />
     </section>
   </main>
@@ -167,21 +207,37 @@
     const noBtn = document.getElementById("noBtn");
     const result = document.getElementById("result");
     const hint = document.getElementById("hint");
+    const music = document.getElementById("music");
 
-    /* ---------- CONFETTI ---------- */
+    /* Start music on first interaction */
+    function startMusic() {
+      music.play().catch(()=>{});
+      document.removeEventListener("click", startMusic);
+    }
+    document.addEventListener("click", startMusic);
+
+    /* Floating hearts */
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+      heart.style.fontSize = (16 + Math.random() * 20) + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 8000);
+    }
+    setInterval(createHeart, 600);
+
+    /* Confetti */
     const confettiCanvas = document.getElementById("confettiCanvas");
-
     function resizeConfettiCanvas() {
       const dpr = Math.max(1, window.devicePixelRatio || 1);
-      confettiCanvas.width = Math.floor(window.innerWidth * dpr);
-      confettiCanvas.height = Math.floor(window.innerHeight * dpr);
-      confettiCanvas.style.width = "100vw";
-      confettiCanvas.style.height = "100vh";
+      confettiCanvas.width = window.innerWidth * dpr;
+      confettiCanvas.height = window.innerHeight * dpr;
     }
-
     resizeConfettiCanvas();
     window.addEventListener("resize", resizeConfettiCanvas);
-    window.addEventListener("orientationchange", () => setTimeout(resizeConfettiCanvas, 150));
 
     const confettiInstance = confetti.create(confettiCanvas, {
       resize: false,
@@ -189,38 +245,22 @@
     });
 
     function fullScreenConfetti() {
-      const end = Date.now() + 1600;
-
-      (function frame() {
-        confettiInstance({
-          particleCount: 12,
-          spread: 90,
-          startVelocity: 45,
-          ticks: 180,
-          origin: { x: Math.random(), y: Math.random() * 0.3 }
-        });
-        if (Date.now() < end) requestAnimationFrame(frame);
-      })();
-
-      setTimeout(() => {
-        confettiInstance({
-          particleCount: 300,
-          spread: 140,
-          startVelocity: 60,
-          ticks: 220,
-          origin: { x: 0.5, y: 0.55 }
-        });
-      }, 300);
+      confettiInstance({
+        particleCount: 300,
+        spread: 140,
+        startVelocity: 60,
+        origin: { x: 0.5, y: 0.6 }
+      });
     }
 
-    /* ---------- YES BUTTON GROWS ---------- */
+    /* Yes button grows */
     let yesScale = 1;
     function growYes() {
-      yesScale = Math.min(2.2, yesScale + 0.1);
+      yesScale = Math.min(1.6, yesScale + 0.08);
       yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
     }
 
-    /* ---------- NO BUTTON RUNS AWAY ---------- */
+    /* No button runs away */
     function clamp(n, min, max) {
       return Math.max(min, Math.min(max, n));
     }
@@ -235,8 +275,8 @@
       dx /= mag;
       dy /= mag;
 
-      let newLeft = (b.left - z.left) + dx * 150;
-      let newTop  = (b.top - z.top) + dy * 150;
+      let newLeft = (b.left - z.left) + dx * 120;
+      let newTop  = (b.top - z.top) + dy * 120;
 
       newLeft = clamp(newLeft, 0, z.width - b.width);
       newTop  = clamp(newTop, 0, z.height - b.height);
@@ -254,42 +294,18 @@
         (b.left + b.width / 2) - e.clientX,
         (b.top + b.height / 2) - e.clientY
       );
-      if (d < 140) moveNo(e.clientX, e.clientY);
+      if (d < 120) moveNo(e.clientX, e.clientY);
     });
 
     noBtn.addEventListener("click", e => e.preventDefault());
 
-    /* ---------- YES CLICK ---------- */
+    /* Yes click */
     yesBtn.addEventListener("click", () => {
       zone.style.display = "none";
-      hint.style.display = "none";     // HIDE THE HINT
+      hint.style.display = "none";
       result.style.display = "block";
-      resizeConfettiCanvas();
       fullScreenConfetti();
     });
-/* ---------- FIT TO SCREEN ---------- */
-const card = document.getElementById("card");
-
-function fitCardToScreen() {
-  card.style.transform = "scale(1)";
-
-  const margin = 20; // space around the card
-  const cardRect = card.getBoundingClientRect();
-
-  const scaleX = (window.innerWidth - margin) / cardRect.width;
-  const scaleY = (window.innerHeight - margin) / cardRect.height;
-
-  const scale = Math.min(scaleX, scaleY, 1);
-
-  card.style.transform = `scale(${scale})`;
-}
-
-window.addEventListener("resize", fitCardToScreen);
-window.addEventListener("load", fitCardToScreen);
-
   </script>
 </body>
 </html>
-
-
-
