@@ -306,20 +306,7 @@
       result.style.display = "block";
       fullScreenConfetti();
     });
-    
-    const music = document.getElementById("music");
-
-function startMusic() {
-  music.volume = 0.5; // optional: set volume to 50%
-  music.play()
-    .then(() => console.log("Music started!"))
-    .catch(err => console.log("Music could not play:", err));
-
-  document.removeEventListener("click", startMusic);
-}
-
-document.addEventListener("click", startMusic);
-
+    
   </script>
 </body>
 </html>
