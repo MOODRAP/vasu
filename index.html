@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Will you be my Valentine?</title>
 
   <!-- Confetti library -->
@@ -21,13 +21,14 @@
 
     body {
       margin: 0;
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-      font-family: system-ui, sans-serif;
-      overflow: hidden;
-      padding: 16px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+  font-family: system-ui, sans-serif;
+  overflow: hidden;
+  padding: 16px;
     }
 
     /* FULL-SCREEN CONFETTI CANVAS */
@@ -41,13 +42,15 @@
     }
 
     .card {
-      width: min(720px, 92vw);
-      padding: 26px 22px;
-      background: var(--card);
-      backdrop-filter: blur(10px);
-      border-radius: 22px;
-      text-align: center;
-      box-shadow: 0 18px 60px rgba(0,0,0,.15);
+      width: 720px;
+  max-width: 92vw;
+  padding: 26px 22px;
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 18px 60px rgba(0,0,0,.15);
+  transform-origin: center center;
     }
 
     .art {
@@ -132,45 +135,12 @@
 <body>
   <canvas id="confettiCanvas"></canvas>
 
-  <main class="card">
-    <!-- ANIMAL WITH HEART -->
-    <svg class="art" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="fur" x1="0" x2="1">
-          <stop offset="0" stop-color="#f7c7a1"/>
-          <stop offset="1" stop-color="#f2a97b"/>
-        </linearGradient>
-        <linearGradient id="heart" x1="0" x2="1">
-          <stop offset="0" stop-color="#ff4d7d"/>
-          <stop offset="1" stop-color="#ff1f68"/>
-        </linearGradient>
-      </defs>
-
-      <path d="M250 50 C250 33 270 25 282 38
-               C294 25 314 33 314 50
-               C314 78 282 92 282 106
-               C282 92 250 78 250 50Z"
-            fill="url(#heart)"/>
-
-      <path d="M90 120 C90 70 140 40 190 60
-               C240 40 290 70 290 120
-               C290 180 240 210 190 210
-               C140 210 90 180 90 120Z"
-            fill="url(#fur)"/>
-
-      <path d="M110 92 L95 55 L140 78 Z" fill="#f2a97b"/>
-      <path d="M270 92 L285 55 L240 78 Z" fill="#f2a97b"/>
-
-      <circle cx="160" cy="130" r="8"/>
-      <circle cx="220" cy="130" r="8"/>
-
-      <path d="M190 144 C186 144 182 148 182 152
-               C182 160 190 164 190 170
-               C190 164 198 160 198 152
-               C198 148 194 144 190 144Z"
-            fill="#ff7aa2"/>
-    </svg>
-
+  <main class="card" id="card">
+<img
+        class="fireworks"
+        src="https://raw.githubusercontent.com/MOODRAP/PUKI/refs/heads/main/Screenshot_20260206_001047_Picsart(1).png"
+        alt="Fireworks"
+      />    
     <h1>rajeshwari will you be my valentine?</h1>
 
     <section class="button-zone" id="zone">
@@ -179,7 +149,7 @@
     </section>
 
     <!-- HINT -->
-    <div class="hint" id="hint">“No” seems a bit shy 😈</div>
+    <div class="hint" id="hint">"Hint: No seems a bit shy 😈"</div>
 
     <section class="result" id="result">
       <h2>YAY! 🎉</h2>
@@ -297,11 +267,29 @@
       resizeConfettiCanvas();
       fullScreenConfetti();
     });
+/* ---------- FIT TO SCREEN ---------- */
+const card = document.getElementById("card");
+
+function fitCardToScreen() {
+  card.style.transform = "scale(1)";
+
+  const margin = 20; // space around the card
+  const cardRect = card.getBoundingClientRect();
+
+  const scaleX = (window.innerWidth - margin) / cardRect.width;
+  const scaleY = (window.innerHeight - margin) / cardRect.height;
+
+  const scale = Math.min(scaleX, scaleY, 1);
+
+  card.style.transform = `scale(${scale})`;
+}
+
+window.addEventListener("resize", fitCardToScreen);
+window.addEventListener("load", fitCardToScreen);
+
   </script>
 </body>
 </html>
-
-
 
 
 
