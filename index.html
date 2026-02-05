@@ -169,7 +169,7 @@
 
   <!-- Romantic sax music -->
   <audio id="music" loop>
-    <source src="https://github.com/MOODRAP/vasu/blob/13e898e081d64a657d5b28032dc86bf13a78ff3a/Romantic%20music%20sound%20effect%20(128kbit_AAC).m4a" type="audio/m4a">
+    <source src="https://github.com/MOODRAP/vasu/raw/refs/heads/main/Romantic%20music%20sound%20effect%20(128kbit_AAC).m4a" type="audio/m4a">
   </audio>
 
   <main class="card">
@@ -306,6 +306,21 @@
       result.style.display = "block";
       fullScreenConfetti();
     });
+    
+    const music = document.getElementById("music");
+
+function startMusic() {
+  music.volume = 0.5; // optional: set volume to 50%
+  music.play()
+    .then(() => console.log("Music started!"))
+    .catch(err => console.log("Music could not play:", err));
+
+  document.removeEventListener("click", startMusic);
+}
+
+document.addEventListener("click", startMusic);
+
   </script>
 </body>
 </html>
+
